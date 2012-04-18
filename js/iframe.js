@@ -4,6 +4,8 @@ function respond(event, message) {
 
 $(function () {
 	$(window).bind('message', function (event) {
+		var data;
+
 		if (!event.data) {
 			if (event.originalEvent.data) {
 				event = event.originalEvent;
@@ -13,10 +15,16 @@ $(function () {
 			}
 		}
 
-		switch (event.data.messageType) {
+		if ($.browser.msie) {
+			data = JSON.parse(event.data);
+		} else {
+			data = event.data;
+		}
+
+		switch (data.messageType) {
 			case 'applyStyle':
 				try {
-					$('head').append($('<style></style>').html(event.data.css));
+					$('head').append($('<style></style>').html(data.css));
 					var message = {
 						success: true,
 						messageType: 'applyStyleResponse',

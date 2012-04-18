@@ -8,6 +8,11 @@ $(function () {
 					messageType: 'applyStyle',
 					css: css
 				};
+
+				if ($.browser.msie) {
+					data = JSON.stringify(data);
+				}
+
 				$('iframe').get(0).contentWindow.postMessage(data, 'http://remotedomain.dev:8888');
 			},
 			error: function (jqXHR) {
