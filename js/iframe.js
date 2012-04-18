@@ -28,7 +28,10 @@ $(function () {
 		switch (data.messageType) {
 			case 'applyStyle':
 				try {
-					$('head').append($('<style></style>').html(data.css));
+					$('head').append($('<style class="applied-css"></style>').html(data.css));
+					if ($.browser.msie) {
+						$('.applied-css').clone().appendTo('head');
+					}
 					var message = {
 						success: true,
 						messageType: 'applyStyleResponse',
