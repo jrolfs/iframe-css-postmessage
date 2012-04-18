@@ -1,4 +1,8 @@
 function respond(event, message) {
+	if ($.browser.msie) {
+		message = JSON.stringify(message);
+	}
+
 	event.source.postMessage(message, event.origin);
 }
 

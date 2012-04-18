@@ -22,6 +22,8 @@ $(function () {
 	});
 
 	$(window).bind('message', function (event) {
+		var data;
+
 		if (!event.data) {
 			if (event.originalEvent.data) {
 				event = event.originalEvent;
@@ -29,6 +31,12 @@ $(function () {
 				console.log('error receiving postMessage data from iframe');
 				return;
 			}
+		}
+
+		if ($.browser.msie) {
+			data = JSON.parse(event.data);
+		} else {
+			data = event.data;
 		}
 
 		switch (event.data.messageType) {
