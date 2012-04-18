@@ -27,25 +27,33 @@ $(function () {
 
 		switch (data.messageType) {
 			case 'applyStyle':
-				try {
-					$('head').append($('<style class="applied-css"></style>').html(data.css));
-					if ($.browser.msie) {
-						$('.applied-css').clone().appendTo('head');
-					}
+				//try {
+					var head = document.getElementsByTagName('head')[0],
+					style = document.createElement('style'),
+					rules = document.createTextNode(data.css);
+
+					style.type = 'text/css';
+					if(style.styleSheet) {
+						style.styleSheet.cssText = rules.nodeValue;
+					} else {
+						style.appendChild(rules);	
+					} 
+					head.appendChild(style);
+
 					var message = {
 						success: true,
 						messageType: 'applyStyleResponse',
 						content: 'Successfully applied stylesheet'
 					}
 					respond(event, message);
-				} catch (error) {
+				/*} catch (error) {
 					var message = {
 						success: false,
 						messageType: 'applyStyleResponse',
 						content: error
 					}
 					respond(event, message);
-				}
+				}*/
 				break;
 			default:
 				console.log('unknown postMessage from parent application');
